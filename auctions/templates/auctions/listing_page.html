@@ -1,0 +1,91 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="body-listing text">
+    {% if user.is_authenticated %}
+        {% if is_in_watchlist %}
+            <a href="{% url 'remove_from_watchlist' listing.id %}" class="emoji-link">Remove from Watchlist</a>
+        {% else %}
+            <a href="{% url 'add_to_watchlist' listing.id %}" class="emoji-link">Watchlist</a>
+        {% endif %}
+    {% endif %}
+    <h2>Listing: {{ listing.title }}</h2>
+    <p>{{ listing.description }}</p>
+    <div class="listing-details">
+        <img src="{{ listing.images.url }}" alt="{{ listing.title }}" class="listing-image" style="max-width: 600px; max-height: 400px; margin-bottom: 10px; border-radius: 5px;">
+        <h3>Starting Bid: ${{ listing.starting_bid }}</h3>
+        <h5>Highest Bid: ${{ current_bid.amount|default_if_none:"No bids" }}</h5>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form method="post" action="{% url 'place_bid' listing.id %}?listing_id={{ listing.id }}">
+            {% csrf_token %}
+            <div class="d-flex init">
+                <div class="input-group custom-width">
+                    <!--label for="bid_amount" class="form-label">Bid:</label-->
+                    <input class="form-control" type="number" name="amount" id="bid_amount" required>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary btn-sm">Place Bid</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="details">
+            <h4>Details</h4>
+            <p>Listed by: {{ listing.user.username }}</p>
+            <p>
+                {% for cat in listing.category.all %}
+                    {{ cat }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+            <p>Date Listed: {{ listing.date }}</p>
+        </div>
+    </div>
+    
+    <div class="comments">
+        <h5>Comments:</h5>
+        <div class="com">
+            {% for comment in comments %}
+                <p><strong>{{ comment.user.username }}</strong> said: {{ comment.content }}</p>
+            {% endfor %}
+            
+        </div>
+    </div>
+    
+    <div class="comment-form">
+        <form method="post" action="{% url 'listing_page' listing.id %}">
+            {% csrf_token %}
+            <div class="comment-input-container">
+                <textarea name="content" rows="3" placeholder="Add a comment" class="form-control" id="floatingTextarea"></textarea>
+                <button type="submit" class="btn init btn-primary">Add Comment</button>
+            </div>
+        </form>
+    </div>
+    {% if user.is_authenticated %}
+        {% if user == listing.user and not listing.closed %}
+            <form method="post" action="{% url 'close_auction' listing.id %}">
+                {% csrf_token %}
+                <button class="btn btn-danger" type="submit" style="margin-top: 20px;">Close Auction</button>
+            </form>
+        {% endif %}
+        {% if listing.closed %}
+            {% if user == listing.winner %}
+                <p>You have won this auction!</p>
+            {% else %}
+                <p>This auction is closed. The winner is: {{ listing.winner.username }}</p>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

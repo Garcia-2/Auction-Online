@@ -1,0 +1,86 @@
+body {
+    padding: 10px;
+}
+
+.listing {
+    display: flex; 
+}
+
+.image {
+    width: 15%;
+    margin-bottom: 20px;
+    border: 1px solid #ccc; 
+    box-shadow: 0 0 20px 2px rgba(0, 0, 0, .1);
+    border-radius: 5px; /* Add rounded corners */
+    background-color: whitesmoke;
+    margin-right: 20px;
+}
+
+.image img {
+    width: 100%;
+    height: 100%;
+    /*display: block;*/
+}
+.text {
+    font-size: 13px;
+    font-family: sans-serif;
+    margin-top: 100px;
+}
+
+.image:hover {
+    transform:scale(1.01);
+    /*z-index: 2;*/
+    border: 1px solid grey;
+    box-shadow: 0 0 20px 5px rgba(0, 0, 0, .1);  
+    border-radius: 10px;
+    transition: border 0.3s ease; /* Add a smooth transition effect */
+}
+
+a, a:hover {
+    text-decoration: none; /* Remove underline */
+    color: #000; /* Change text color to black */
+}
+
+.body-listing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.emoji-link {
+    font-size: 12px; /* Adjust the font size to your preference */
+    font-weight: bold;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 2px;
+    background-color: darkgrey;
+    color: whitesmoke;
+}
+
+
+.comment-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+.comment-input-container textarea {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.custom-width {
+    width: 200px; /* Adjust the width to your preference */
+    margin: 0 auto;
+}
+
+.details, .com{
+    font-size: 12px;
+}

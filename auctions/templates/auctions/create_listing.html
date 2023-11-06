@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <h2>Create Listing</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.category.label_tag }} {{ form.category }}
+        </div>
+        <div class="form-group">   
+            {{ form.title.label_tag }} {{ form.title }}
+        </div>
+        <div class="form-group">  
+            {{ form.description.label_tag }} {{ form.description }}
+        </div>
+        <div class="form-group">  
+            {{ form.starting_bid.label_tag }} {{ form.starting_bid }}
+        </div>
+        <div class="mb-3">  
+            <label for="{{ form.images.id_for_label }}" class="form-label">Image:</label>
+            <!--{{ form.images.label_tag }}--> {{ form.images }}
+        </div>
+        <div class="form-group">  
+            {{ form.image_urls.label_tag }} {{ form.image_urls }}
+        </div>
+        <button class="btn btn-primary" type="submit">Create Listing</button>
+    </form>
+
+{% endblock %}
